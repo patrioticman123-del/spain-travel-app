@@ -105,3 +105,5 @@ body { font-size:17px; }
 .form-grid label,.day-edit label { font-size:13px; }.form-grid input,.form-grid select,.form-grid textarea,.day-edit input { padding:12px; font-size:15px; }.primary,.secondary,.danger { font-size:13px; }
 .money-grid small { font-size:11px; }.money-grid strong { font-size:22px; }.bar-row { font-size:11px; }.expense-list h3 { font-size:15px; }.expense-list p { font-size:11px; }.expense-list strong { font-size:14px; }
 .edit-row time { font-size:12px; }.edit-row span { font-size:15px; }.edit-row small { font-size:10px; }.ticket-card h3 { font-size:17px; }.ticket-card p { font-size:13px; }.file-link { font-size:13px; }.modal-title small { font-size:10px; }.modal-title h2 { font-size:25px; }
+.money-grid .twd-equivalent { display:block; margin-top:5px; font-size:12px; font-weight:700; opacity:.72; }
+.exchange-note { margin:-6px 2px 15px; color:#526461; font-size:11px; line-height:1.55; }
