@@ -7,6 +7,7 @@ const MAX_STATE_BYTES = 4 * 1024 * 1024;
 type SharedState = {
   hero: unknown;
   days: unknown;
+  guides?: unknown;
   version: number;
 };
 
@@ -43,7 +44,7 @@ export async function PUT(request: Request) {
   if (!redis) return Response.json({ error: "共用資料庫尚未設定" }, { status: 503 });
 
   const body = await request.json();
-  const state: SharedState = { hero: body.hero, days: body.days, version: Date.now() };
+  const state: SharedState = { hero: body.hero, days: body.days, guides: body.guides, version: Date.now() };
   const payload = JSON.stringify(state);
   if (Buffer.byteLength(payload, "utf8") > MAX_STATE_BYTES) {
     return Response.json({ error: "共同行程資料過大，請減少或更換背景圖片" }, { status: 413 });
