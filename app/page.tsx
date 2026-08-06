@@ -43,6 +43,25 @@ async function localGet(){const db=await openDb();return new Promise<LocalRecord
 async function localPut(value:LocalRecord){const db=await openDb();return new Promise<void>((resolve,reject)=>{const tx=db.transaction("data","readwrite");tx.objectStore("data").put(value,"device");tx.oncomplete=()=>resolve();tx.onerror=()=>reject(tx.error);});}
 function fileToData(file:File){return new Promise<string>((resolve,reject)=>{const reader=new FileReader();reader.onload=()=>resolve(String(reader.result));reader.onerror=()=>reject(reader.error);reader.readAsDataURL(file);});}
 
+async function compressBackground(file:File){
+  if(!file.type.startsWith("image/"))throw new Error("Invalid image");
+  if(file.size>15*1024*1024)throw new Error("Image too large");
+  const objectUrl=URL.createObjectURL(file);
+  try{
+    const image=await new Promise<HTMLImageElement>((resolve,reject)=>{const next=new Image();next.onload=()=>resolve(next);next.onerror=()=>reject(new Error("Image unavailable"));next.src=objectUrl;});
+    const maxSide=1280,scale=Math.min(1,maxSide/Math.max(image.naturalWidth,image.naturalHeight));
+    let width=Math.max(1,Math.round(image.naturalWidth*scale)),height=Math.max(1,Math.round(image.naturalHeight*scale)),result="";
+    const canvas=document.createElement("canvas"),context=canvas.getContext("2d");
+    if(!context)throw new Error("Canvas unavailable");
+    for(let attempt=0;attempt<7;attempt++){
+      canvas.width=width;canvas.height=height;context.clearRect(0,0,width,height);context.drawImage(image,0,0,width,height);
+      for(const quality of [.82,.72,.62,.52,.44]){result=canvas.toDataURL("image/webp",quality);if(result.length<=160000)return result;}
+      width=Math.max(480,Math.round(width*.82));height=Math.max(320,Math.round(height*.82));
+    }
+    return result;
+  }finally{URL.revokeObjectURL(objectUrl);}
+}
+
 export default function Home(){
   const [data,setData]=useState<AppData>(emptyData),[selectedDate,setSelectedDate]=useState(chooseInitialDate(initialDays));
   const [tab,setTab]=useState<Tab>("plan"),[editingId,setEditingId]=useState<string|null>(null),[dirty,setDirty]=useState(false),[saving,setSaving]=useState(false);
@@ -110,6 +129,6 @@ function AddEventForm({addEvent}:{addEvent:(e:Omit<EventItem,"id">)=>void}){cons
 
 function HeroEditor({hero,setHero,close,flash,isAdmin}:{hero:HeroConfig;setHero:(h:HeroConfig)=>void;close:()=>void;flash:(s:string)=>void;isAdmin:boolean}){return <div className="modal-backdrop"><section className="ticket-modal settings-modal"><div className="modal-title"><div><small>HOME SETTINGS</small><h2>修改主畫面</h2></div><button onClick={close} aria-label="關閉">×</button></div><div className="form-grid"><label className="wide">主標題<input value={hero.title} onChange={e=>setHero({...hero,title:e.target.value})}/></label><label>英文小標<input value={hero.kicker} onChange={e=>setHero({...hero,kicker:e.target.value})}/></label><label>住宿標籤<input value={hero.hotel} onChange={e=>setHero({...hero,hotel:e.target.value})}/></label><label className="wide">日期標籤<input value={hero.tripDates} onChange={e=>setHero({...hero,tripDates:e.target.value})}/></label></div><BackgroundUploader current={hero.backgroundImage} isAdmin={isAdmin} onUploaded={url=>setHero({...hero,backgroundImage:url})} onClear={()=>setHero({...hero,backgroundImage:undefined})} flash={flash}/><button className="primary settings-done" onClick={close}>完成設定</button></section></div>}
 
-function BackgroundUploader({current,onUploaded,onClear,flash,isAdmin}:{current?:string;onUploaded:(s:string)=>void;onClear:()=>void;flash:(s:string)=>void;isAdmin:boolean}){const [loading,setLoading]=useState(false);async function upload(e:ChangeEvent<HTMLInputElement>){const file=e.target.files?.[0];if(!file)return;setLoading(true);try{if(isAdmin){const form=new FormData();form.set("file",file);const response=await fetch("/api/assets",{method:"POST",body:form});if(!response.ok)throw new Error();onUploaded((await response.json()).url);}else onUploaded(await fileToData(file));flash(isAdmin?"共用封面已上傳":"封面已儲存在這台手機");}catch{flash("圖片上傳失敗");}finally{setLoading(false);}}return <div className="background-control">{current&&<img src={current} alt="封面預覽"/>}<label className="secondary"><input type="file" accept="image/*" onChange={upload}/>{loading?"處理中…":current?"更換背景":"新增背景"}</label>{current&&<button className="danger" onClick={onClear}>移除</button>}</div>}
+function BackgroundUploader({current,onUploaded,onClear,flash,isAdmin}:{current?:string;onUploaded:(s:string)=>void;onClear:()=>void;flash:(s:string)=>void;isAdmin:boolean}){const [loading,setLoading]=useState(false);async function upload(e:ChangeEvent<HTMLInputElement>){const file=e.target.files?.[0];if(!file)return;setLoading(true);try{onUploaded(await compressBackground(file));flash(isAdmin?"共用封面已加入，按發布後所有人即可看到":"封面已儲存在這台手機");}catch{flash("圖片處理失敗，請選擇 15 MB 以下的圖片");}finally{setLoading(false);}}return <div className="background-control">{current&&<img src={current} alt="封面預覽"/>}<label className="secondary"><input type="file" accept="image/*" onChange={upload}/>{loading?"壓縮中…":current?"更換背景":"新增背景"}</label>{current&&<button className="danger" onClick={onClear}>移除</button>}</div>}
 
 function TicketAdmin({event,tickets,allTickets,setTickets,flash}:{event:EventItem;tickets:Ticket[];allTickets:Ticket[];setTickets:(t:Ticket[])=>void;flash:(s:string)=>void}){const [file,setFile]=useState<File|null>(null),[loading,setLoading]=useState(false);async function upload(e:FormEvent){e.preventDefault();if(!file)return flash("請選擇票券圖片或 PDF");if(file.size>12*1024*1024)return flash("單一檔案請小於 12 MB");setLoading(true);try{const ticket:Ticket={id:crypto.randomUUID(),eventId:event.id,name:file.name,number:"",fileName:file.name,fileType:file.type,fileData:await fileToData(file)};setTickets([...allTickets,ticket]);setFile(null);flash("票券已離線儲存在這台裝置");}catch{flash("票券儲存失敗");}finally{setLoading(false);}}return <div className="ticket-admin"><h3>我的離線票券</h3>{tickets.map(x=><div className="admin-ticket" key={x.id}><span>🎟️</span><div><b>{x.fileName||"票券"}</b><small>儲存在這台手機</small></div><button onClick={()=>setTickets(allTickets.filter(t=>t.id!==x.id))} aria-label="刪除票券">×</button></div>)}<form className="form-grid" onSubmit={upload}><label className="upload wide"><input type="file" accept="image/*,.pdf" onChange={e=>setFile(e.target.files?.[0]||null)}/><span>{file?file.name:"點選加入 QR Code、圖片或 PDF"}</span></label><button className="secondary wide" disabled={loading||!file}>{loading?"儲存中…":"儲存在這台手機"}</button></form></div>}
