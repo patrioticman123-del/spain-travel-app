@@ -1,5 +1,5 @@
 export type EventItem = { id: string; time: string; title: string; note: string; location?: string; kind?: "spot" | "food" | "transit" | "rest" };
-export type DayStyle = "classic" | "mediterranean" | "garden" | "gaudi" | "flamenco";
+export type DayStyle = "classic" | "mediterranean" | "garden" | "gaudi" | "sunset";
 export type DayPlan = { id: string; date: string; weekday: string; theme: string; subtitle: string; backgroundImage?: string; styleTheme?: DayStyle; events: EventItem[] };
 export type Expense = { id: string; date: string; category: string; title: string; amount: number };
 
