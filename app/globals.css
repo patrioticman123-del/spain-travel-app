@@ -239,14 +239,18 @@ body { font-size:17px; }
 .restaurant-detail>a { display:block; margin-top:14px; padding:12px; border-radius:11px; color:white; background:var(--teal); text-align:center; text-decoration:none; font-size:14px; font-weight:900; }
 @media (max-width:390px) { .restaurant-detail { padding-left:15px; }.food-city-card { grid-template-columns:48px 1fr 16px; }.food-city-card>span { width:48px; height:48px; } }
 
-/* Reachable hero controls on iPhone */
-.hero { padding-bottom:68px; }
+/* Compact, reachable hero controls on iPhone */
+.hero { padding-bottom:18px; }
 .hero-main { padding-right:0; }
 .hero-settings { position:absolute; top:0; right:0; }
-.trip-meta { flex-wrap:wrap; padding-right:92px; }
-.hero-controls { position:absolute; z-index:4; right:max(16px,env(safe-area-inset-right)); bottom:12px; display:flex; gap:8px; }
-.hero-controls .settings-button { width:42px; height:42px; }
-.font-main-button { font-family:Arial,"Noto Sans TC",sans-serif; font-size:14px; font-weight:900; letter-spacing:-.08em; }
+.hero-footer { position:relative; z-index:4; display:flex; align-items:center; gap:6px; margin-top:11px; }
+.hero-footer .trip-meta { display:grid; grid-template-columns:auto minmax(0,1fr); flex:1 1 auto; gap:5px; min-width:0; margin:0; padding:0; font-size:8px; line-height:1.15; white-space:nowrap; }
+.hero-footer .trip-meta span { min-width:0; padding:6px 7px; overflow:hidden; text-overflow:ellipsis; }
+.hero-controls { position:static; display:flex; flex:0 0 auto; gap:5px; }
+.hero-controls .settings-button { width:34px; height:34px; font-size:16px; }
+.font-main-button { font-family:Arial,"Noto Sans TC",sans-serif; font-size:12px!important; font-weight:900; letter-spacing:-.08em; }
+.date-section { padding:9px 18px; }
+.date-section select { padding-top:10px; padding-bottom:10px; }
 
 /* Each palette has its own geometric language. */
 .hero-style-gaudi:before { opacity:.26; background-image:radial-gradient(circle at 20% 28%,#f6c33f 0 7px,transparent 8px),radial-gradient(circle at 60% 70%,#e15b49 0 10px,transparent 11px),radial-gradient(circle at 86% 36%,#77c8bd 0 8px,transparent 9px); background-size:72px 72px,92px 92px,82px 82px; }
@@ -271,6 +275,7 @@ body { font-size:17px; }
 .hero h1 { font-size:calc(28px * var(--font-scale)); }
 .eyebrow,.feature-title p,.section-heading p { font-size:calc(11px * var(--font-scale)); }
 .trip-meta { font-size:calc(11px * var(--font-scale)); }
+.hero-footer .trip-meta { font-size:8px; }
 .date-section>label { font-size:calc(13px * var(--font-scale)); }
 .date-section select { font-size:calc(15px * var(--font-scale)); }
 .section-heading h2,.feature-title h2 { font-size:calc(30px * var(--font-scale)); }
