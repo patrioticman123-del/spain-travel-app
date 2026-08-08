@@ -308,3 +308,7 @@ body { font-size:17px; }
 /* Bottom navigation never scales with article text. */
 .bottom-nav button { display:flex; flex-direction:column; align-items:center; justify-content:center; gap:2px; min-width:0; min-height:42px; padding:4px 2px; font-size:11px!important; line-height:1.05; white-space:nowrap; }
 .bottom-nav button span { flex:0 0 22px; height:22px; font-size:20px!important; line-height:22px; }
+
+/* Blink the current itinerary stop without opening its details. */
+.timeline-item.next .dot { animation:current-stop-pulse 1.35s ease-in-out infinite; }
+@keyframes current-stop-pulse { 0%,100% { box-shadow:0 0 0 3px rgba(239,112,93,.18); opacity:1; } 50% { box-shadow:0 0 0 8px rgba(239,112,93,.05); opacity:.45; } }
