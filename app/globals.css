@@ -301,3 +301,7 @@ body { font-size:17px; }
 .font-size-options i { position:absolute; top:4px; right:5px; display:grid; place-items:center; width:18px; height:18px; border-radius:50%; color:white; background:var(--teal); font-size:10px; font-style:normal; }
 .font-preview { display:grid; gap:5px; margin:12px 0 18px; padding:15px; border:1px solid var(--line); border-radius:14px; background:var(--cream); }
 .font-preview small { color:var(--coral); font-size:.72em; font-weight:900; }.font-preview strong { font-size:1.05em; }.font-preview p { margin:0; font-size:.9em; line-height:1.55; opacity:.72; }
+
+/* Bottom navigation never scales with article text. */
+.bottom-nav button { display:flex; flex-direction:column; align-items:center; justify-content:center; gap:2px; min-width:0; min-height:42px; padding:4px 2px; font-size:11px!important; line-height:1.05; white-space:nowrap; }
+.bottom-nav button span { flex:0 0 22px; height:22px; font-size:20px!important; line-height:22px; }
