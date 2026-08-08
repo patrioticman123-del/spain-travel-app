@@ -238,3 +238,61 @@ body { font-size:17px; }
 .food-note { display:block; margin-top:11px; color:#9a584c; font-size:12px; line-height:1.55; }
 .restaurant-detail>a { display:block; margin-top:14px; padding:12px; border-radius:11px; color:white; background:var(--teal); text-align:center; text-decoration:none; font-size:14px; font-weight:900; }
 @media (max-width:390px) { .restaurant-detail { padding-left:15px; }.food-city-card { grid-template-columns:48px 1fr 16px; }.food-city-card>span { width:48px; height:48px; } }
+
+/* Reachable hero controls on iPhone */
+.hero { padding-bottom:68px; }
+.hero-main { padding-right:0; }
+.hero-settings { position:absolute; top:0; right:0; }
+.trip-meta { flex-wrap:wrap; padding-right:92px; }
+.hero-controls { position:absolute; z-index:4; right:max(16px,env(safe-area-inset-right)); bottom:12px; display:flex; gap:8px; }
+.hero-controls .settings-button { width:42px; height:42px; }
+.font-main-button { font-family:Arial,"Noto Sans TC",sans-serif; font-size:14px; font-weight:900; letter-spacing:-.08em; }
+
+/* Each palette has its own geometric language. */
+.hero-style-gaudi:before { opacity:.26; background-image:radial-gradient(circle at 20% 28%,#f6c33f 0 7px,transparent 8px),radial-gradient(circle at 60% 70%,#e15b49 0 10px,transparent 11px),radial-gradient(circle at 86% 36%,#77c8bd 0 8px,transparent 9px); background-size:72px 72px,92px 92px,82px 82px; }
+.hero-style-classic:before { opacity:.2; background-image:linear-gradient(45deg,transparent 39%,#ffe19a 40% 47%,transparent 48% 52%,#ffe19a 53% 60%,transparent 61%),linear-gradient(-45deg,transparent 39%,rgba(255,255,255,.8) 40% 47%,transparent 48% 52%,rgba(255,255,255,.8) 53% 60%,transparent 61%); background-size:54px 54px; }
+.hero-style-mediterranean:before { opacity:.24; background-image:radial-gradient(ellipse at 50% 110%,transparent 0 17px,rgba(255,255,255,.85) 18px 21px,transparent 22px); background-size:52px 30px; }
+.hero-style-garden:before { opacity:.18; background-image:linear-gradient(30deg,transparent 44%,#f5df9a 45% 49%,transparent 50%),linear-gradient(-30deg,transparent 44%,#f5df9a 45% 49%,transparent 50%); background-size:44px 64px; }
+.hero-style-sunset:before { opacity:.18; background-image:repeating-conic-gradient(from 12deg at 86% 34%,rgba(255,255,255,.9) 0 8deg,transparent 8deg 20deg); background-size:160px 160px; background-position:100% 20%; background-repeat:no-repeat; }
+.preview-gaudi:after,.preview-classic:after,.preview-mediterranean:after,.preview-garden:after,.preview-sunset:after { content:""; position:absolute; z-index:0; pointer-events:none; }
+.preview-gaudi:after { inset:0; opacity:.32; background:radial-gradient(circle at 20% 28%,#f3be3e 0 8px,transparent 9px),radial-gradient(circle at 60% 78%,#d95743 0 12px,transparent 13px); background-size:74px 74px,96px 96px; }
+.preview-classic:after { inset:-25px -10px; opacity:.22; background:linear-gradient(45deg,transparent 40%,#9b1c2e 41% 47%,transparent 48% 52%,#9b1c2e 53% 59%,transparent 60%); background-size:46px 46px; }
+.preview-mediterranean:after { right:-12px; bottom:-16px; width:180px; height:90px; opacity:.35; background:radial-gradient(ellipse at 50% 100%,transparent 0 18px,#fff 19px 22px,transparent 23px); background-size:54px 32px; }
+.preview-garden:after { right:-8px; bottom:-26px; width:160px; height:125px; opacity:.2; background:linear-gradient(30deg,transparent 44%,#285a39 45% 49%,transparent 50%),linear-gradient(-30deg,transparent 44%,#285a39 45% 49%,transparent 50%); background-size:44px 62px; }
+.preview-sunset:after { right:-26px; bottom:-45px; width:160px; height:160px; border-radius:50%; opacity:.2; background:repeating-conic-gradient(#9f402d 0 9deg,transparent 9deg 20deg); }
+.app-theme-gaudi .day-styled:after { border-radius:42% 58% 55% 45%; transform:rotate(16deg); }
+.app-theme-classic .day-styled:after { content:""; position:absolute; right:-24px; bottom:-34px; width:145px; height:145px; transform:rotate(45deg); border:10px double rgba(126,36,26,.17); box-shadow:0 0 0 20px rgba(255,255,255,.08); }
+.app-theme-mediterranean .day-styled:after { content:""; position:absolute; right:-18px; bottom:-20px; width:180px; height:100px; opacity:.3; background:radial-gradient(ellipse at 50% 100%,transparent 0 22px,#fff 23px 27px,transparent 28px); background-size:64px 38px; }
+.app-theme-garden .day-styled:after { content:""; position:absolute; right:-12px; bottom:-28px; width:165px; height:140px; opacity:.24; background:linear-gradient(30deg,transparent 44%,#315d3e 45% 49%,transparent 50%),linear-gradient(-30deg,transparent 44%,#315d3e 45% 49%,transparent 50%); background-size:48px 68px; transform:none; }
+.app-theme-sunset .day-styled:after { content:""; position:absolute; right:-35px; bottom:-65px; width:190px; height:190px; border-radius:50%; opacity:.18; background:repeating-conic-gradient(#9b3d2a 0 9deg,transparent 9deg 20deg); transform:none; }
+
+/* Device-local text size: typography scales while component widths stay fixed. */
+.app-shell { --font-scale:1; font-size:calc(17px * var(--font-scale)); }
+.hero h1 { font-size:calc(28px * var(--font-scale)); }
+.eyebrow,.feature-title p,.section-heading p { font-size:calc(11px * var(--font-scale)); }
+.trip-meta { font-size:calc(11px * var(--font-scale)); }
+.date-section>label { font-size:calc(13px * var(--font-scale)); }
+.date-section select { font-size:calc(15px * var(--font-scale)); }
+.section-heading h2,.feature-title h2 { font-size:calc(30px * var(--font-scale)); }
+.section-heading>div>span,.feature-title>div>span { font-size:calc(14px * var(--font-scale)); }
+.status-card small { font-size:calc(11px * var(--font-scale)); }.status-card strong { font-size:calc(14px * var(--font-scale)); }.status-card button { font-size:calc(13px * var(--font-scale)); }
+.timeline-item time { font-size:calc(13px * var(--font-scale)); }.timeline-item h3 { font-size:calc(17px * var(--font-scale)); }.timeline-item p { font-size:calc(14px * var(--font-scale)); }
+.attraction-card small,.food-city-card small,.restaurant-card summary small { font-size:calc(10px * var(--font-scale)); }
+.attraction-card h3,.restaurant-card summary h3 { font-size:calc(18px * var(--font-scale)); }.attraction-card p,.food-city-card p { font-size:calc(13px * var(--font-scale)); }
+.food-city-card h3 { font-size:calc(21px * var(--font-scale)); }.food-city-card b,.restaurant-card summary b { font-size:calc(12px * var(--font-scale)); }
+.restaurant-detail>p { font-size:calc(15px * var(--font-scale)); }.restaurant-detail h4 { font-size:calc(14px * var(--font-scale)); }.dish-tags span,.food-note { font-size:calc(12px * var(--font-scale)); }
+.guide-content>p { font-size:calc(16px * var(--font-scale)); }.guide-content li p { font-size:calc(15px * var(--font-scale)); }
+.form-grid label,.day-edit label { font-size:calc(13px * var(--font-scale)); }.form-grid input,.form-grid select,.form-grid textarea,.day-edit input { font-size:calc(15px * var(--font-scale)); }
+.edit-row span { font-size:calc(15px * var(--font-scale)); }.edit-row time { font-size:calc(12px * var(--font-scale)); }.edit-row small { font-size:calc(10px * var(--font-scale)); }
+.bottom-nav button { font-size:calc(11px * var(--font-scale)); }.bottom-nav button span { font-size:calc(20px * var(--font-scale)); }
+.modal-title h2 { font-size:calc(25px * var(--font-scale)); }.style-description { font-size:calc(13px * var(--font-scale)); }
+
+.font-modal { width:min(460px,100%); }
+.font-size-options { display:grid; grid-template-columns:repeat(5,1fr); gap:6px; margin:16px 0; }
+.font-size-options button { position:relative; display:grid; place-items:center; gap:5px; min-width:0; padding:12px 3px 10px; border:2px solid var(--line); border-radius:13px; color:var(--ink); background:var(--cream); cursor:pointer; }
+.font-size-options button.selected { border-color:var(--teal); background:var(--mint); }
+.font-size-options span { height:25px; font-family:Georgia,serif; font-weight:800; }
+.font-size-options b { font-size:11px; white-space:nowrap; }
+.font-size-options i { position:absolute; top:4px; right:5px; display:grid; place-items:center; width:18px; height:18px; border-radius:50%; color:white; background:var(--teal); font-size:10px; font-style:normal; }
+.font-preview { display:grid; gap:5px; margin:12px 0 18px; padding:15px; border:1px solid var(--line); border-radius:14px; background:var(--cream); }
+.font-preview small { color:var(--coral); font-size:.72em; font-weight:900; }.font-preview strong { font-size:1.05em; }.font-preview p { margin:0; font-size:.9em; line-height:1.55; opacity:.72; }
